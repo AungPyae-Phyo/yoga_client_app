@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "1054231321026",
+    "project_id": "yoga-admin-61c8b",
+    "storage_bucket": "yoga-admin-61c8b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1054231321026:android:3844be9478cef794295e5b",
+        "android_client_info": {
+          "package_name": "com.aungpyaephyo.yoga.admin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeEgpItv0l3nl_9BlCfnoJDKYoNKFT_xs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1054231321026:android:8e735b1a9214f98e295e5b",
+        "android_client_info": {
+          "package_name": "com.example.yog"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeEgpItv0l3nl_9BlCfnoJDKYoNKFT_xs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1054231321026:android:d34de5822dfcff40295e5b",
+        "android_client_info": {
+          "package_name": "com.example.yoga_client_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeEgpItv0l3nl_9BlCfnoJDKYoNKFT_xs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
