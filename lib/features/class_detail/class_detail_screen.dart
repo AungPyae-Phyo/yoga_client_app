@@ -47,7 +47,7 @@ class _ViewClassScreenState extends State<ViewClassScreen> {
           ),
           const SizedBox(height: 20),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -70,7 +70,7 @@ class _ViewClassScreenState extends State<ViewClassScreen> {
                                     left: 10, right: 10, top: 3, bottom: 3),
                                 child: Text(
                                   name,
-                                  style: const TextStyle(fontSize: 16),
+                                  style: TextStyles.cardTitle,
                                 ),
                               ),
                             );
@@ -86,13 +86,13 @@ class _ViewClassScreenState extends State<ViewClassScreen> {
                 const SizedBox(height: 10),
                 Text('Description: ${widget.course.comment}'),
                 const SizedBox(height: 10),
-                Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: deviceWidth * 0.035),
-                  child: const CustomButton(
-                    buttonName: 'BOOK NOW',
-                  ),
-                ),
+                // Padding(
+                //   padding:
+                //       EdgeInsets.symmetric(horizontal: deviceWidth * 0.035),
+                //   child: const CustomButton(
+                //     buttonName: 'BOOK NOW',
+                //   ),
+                // ),
               ],
             ),
           )

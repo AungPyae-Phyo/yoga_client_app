@@ -12,16 +12,16 @@ class CourseInfo extends StatelessWidget {
   final YogaClass yogaClass;
  
   const CourseInfo({
-    Key? key,
+    super.key,
     required this.yogaClass,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Card(
       // surfaceTintColor: ColorConst.lightAccent,
       child: Padding(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

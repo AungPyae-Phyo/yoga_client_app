@@ -26,89 +26,99 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
   bool isLoading = false;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getAllItemsFromCart();
   }
-@override
-Widget build(BuildContext context) {
-  final currentTheme = Theme.of(context);
-  final textTheme = currentTheme.textTheme;
 
-  // Check if `widget.yogaClass` is null or lacks data
-  if (widget.yogaClass == null ||
-      (widget.yogaClass.classes?.isEmpty ?? true)) {
+  @override
+  Widget build(BuildContext context) {
+    final currentTheme = Theme.of(context);
+    final textTheme = currentTheme.textTheme;
+
+    // Check if `widget.yogaClass` is null or lacks data
+    if (widget.yogaClass == null ||
+        (widget.yogaClass.classes?.isEmpty ?? true)) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Course Name'),
+        ),
+        body: const Center(
+          child: Text(
+            "No Data Available",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Course Name'),
       ),
-      body: const Center(
-        child: Text(
-          "No Data Available",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      body: Padding(
+        padding: const EdgeInsets.all(11.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Available Classes',
+              style: textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 10),
+            const Text(
+              'Description: ',
+            ),
+            Text(
+                'Event Type: ${widget.yogaClass.eventType?.toLowerCase() ?? ""}'),
+
+            const SizedBox(height: 10),
+
+            Text(
+              'Level: ${widget.yogaClass.difficultyLevel ?? ""}',
+              style: TextStyles.bodyText,
+            ),
+
+            const SizedBox(height: 10),
+
+            const Text(
+              'Policy',
+              style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  decoration: TextDecoration.underline),
+            ),
+
+            const Text('data'),
+
+            isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Expanded(
+                    child: ListView.builder(
+                      itemCount: widget.yogaClass.classes!.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final data = widget.yogaClass.classes![index];
+                        final isSaved = courses.contains(data);
+                        return ClassInfo(
+                          isSaved: isSaved,
+                          course: data,
+                        );
+                      },
+                    ),
+                  ),
+            const SizedBox(height: 20),
+
+            // Bottom button
+            // const CustomFillButton(text: 'Add to Cart'),
+          ],
         ),
       ),
     );
   }
-
-  return Scaffold(
-    appBar: AppBar(
-      title: const Text('Course Name'),
-    ),
-    body: Padding(
-      padding: const EdgeInsets.all(11.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Available Classes',
-            style: textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 10),
-          const Text(
-            'Description: ',
-          ),
-          const Text('Online URL: https://www.yoga.com/'),
-          const SizedBox(height: 10),
-
-          Padding(
-            padding: const EdgeInsets.only(left: 5),
-            child: Text(
-              'Level: ${widget.yogaClass.difficultyLevel ?? ""}',
-              style: TextStyles.bodyText,
-            ),
-          ),
-          const SizedBox(height: 10),
-
-          isLoading
-              ? const Center(
-                  child: CircularProgressIndicator(),
-                )
-              : Expanded(
-                  child: ListView.builder(
-                    itemCount: widget.yogaClass.classes!.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final data = widget.yogaClass.classes![index];
-                      final isSaved = courses.contains(data);
-                      return ClassInfo(
-                        isSaved: isSaved,
-                        course: data,
-                      );
-                    },
-                  ),
-                ),
-          const SizedBox(height: 20),
-
-          // Bottom button
-          // const CustomFillButton(text: 'Add to Cart'),
-        ],
-      ),
-    ),
-  );
-}
-
 
   void getAllItemsFromCart() {
     setState(() {

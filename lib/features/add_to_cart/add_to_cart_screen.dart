@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:yoga_client_app/config/constants/colors.dart';
 
 import '../../data/cart_manager.dart';
 import '../../data/booking_manager.dart';
@@ -104,7 +105,7 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('${course.comment} booked successfully!')),
+      SnackBar(content: Text('${course.comment} booking successfully!')),
     );
 
     Navigator.push(
@@ -119,25 +120,36 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
     showCupertinoDialog(
       context: context,
       builder: (context) => CupertinoAlertDialog(
-        title: const Text(
-            'Are you sure you want to clear all classes from cart list'),
+        title: const Text('Clear All Items'),
+        content: const Text(
+            'Are you sure you want to remove all classes from the cart? This action cannot be undone.'),
         actions: [
           CupertinoDialogAction(
             child: const Text('No'),
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pop(context); // Close the dialog
             },
           ),
           CupertinoDialogAction(
             isDestructiveAction: true,
             child: const Text('Yes'),
-            onPressed: () {
-              Navigator.pop(context);
-              // Adjusted this line for type consistency
-              CartManager.deleteAll(
+            onPressed: () async {
+              Navigator.pop(context); 
+
+              // Clear all items from the cart
+              await CartManager.deleteAll(
                 courses.map((e) => int.tryParse(e.id ?? '') ?? 0).toList(),
               );
-              getAllItemsFromCart();
+
+              setState(() {
+                courses = CartManager.getAllCourse(); // Fetch updated data
+              });
+
+              // Show confirmation message
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                    content: Text('All items removed from the cart.')),
+              );
             },
           ),
         ],
@@ -187,11 +199,20 @@ class AddToCartItem extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
+                      child: FilledButton(
+                          style: FilledButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8))),
+                          onPressed: onBook,
+                          child: const Text('Book')),
+                    ),
+                    const SizedBox(width: 20),
+                    Expanded(
                       child: OutlinedButton(
                         onPressed: onRemove,
                         style: OutlinedButton.styleFrom(
                             side: const BorderSide(
-                              color: Colors.red,
+                              color: ColorConst.darkAccent,
                             ),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8))),
@@ -201,15 +222,6 @@ class AddToCartItem extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: FilledButton(
-                          style: FilledButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8))),
-                          onPressed: onBook,
-                          child: const Text('Book')),
-                    )
                   ],
                 ),
               ],

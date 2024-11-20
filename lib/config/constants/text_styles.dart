@@ -4,7 +4,7 @@ import 'colors.dart';
 class TextStyles {
   static const TextStyle cardTitle = TextStyle(
     fontSize: 16,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w500,
   );
 
   static const TextStyle bodyText = TextStyle(
