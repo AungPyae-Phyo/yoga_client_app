@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:yoga_client_app/data/yoga_class.dart';
-import '../../../course_detail/course_info.dart';
+
+import '../course_detail/course_info.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -49,7 +51,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemBuilder: (BuildContext context, int index) {
                   final data = list[index];
                   return CourseInfo(
-                  
                     yogaClass: data,
                   );
                 },
@@ -65,10 +66,17 @@ class _HomeScreenState extends State<HomeScreen> {
     });
     final yogaCourses =
         await FirebaseFirestore.instance.collection('yoga_courses').get();
-      print(yogaCourses.docs[0].data());
+    print(yogaCourses.docs[0].data());
     setState(() {
       isLoading = false;
       list = yogaCourses.docs.map((e) => YogaClass.fromMap(e.data())).toList();
     });
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
   }
 }

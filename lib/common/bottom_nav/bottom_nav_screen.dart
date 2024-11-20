@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:yoga_client_app/features/home/home_screen.dart';
 import '../../config/constants/colors.dart';
-import '../../config/features/add_to_cart/add_to_cart_screen.dart';
-import '../../config/features/booking/booking_screen.dart';
-import '../../config/features/home/presentation/screens/home_screen.dart';
+import '../../features/add_to_cart/add_to_cart_screen.dart';
+import '../../features/booking/booking_screen.dart';
+
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
@@ -17,7 +18,7 @@ class _BottomNavState extends State<BottomNav> {
   Widget build(BuildContext context) {
     List<Widget> widgetOptions = [
       const HomeScreen(),
-      const BookingScreen(),
+      const BookingListScreen(),
       const AddToCartScreen(),
     ];
     void onTap(index) {

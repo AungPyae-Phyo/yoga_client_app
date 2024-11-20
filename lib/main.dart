@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       title: 'Yoga Client',
       theme: MyTheme.lightTheme,
       darkTheme: MyTheme.darkTheme,
-      themeMode: ThemeMode.light,
+      themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
       home: BottomNav(),
     );
@@ -32,10 +32,12 @@ class MyApp extends StatelessWidget {
 }
 
 const yogaClassBoxName = 'yoga_class_box';
+const bookList = 'course_booking';
 
 Future initHive() async {
   await Hive.initFlutter();
   Hive.registerAdapter(YogaClassAdapter());
   Hive.registerAdapter(CourseAdapter());
-  await Hive.openBox<YogaClass>(yogaClassBoxName);
+  await Hive.openBox<Course>(yogaClassBoxName);
+  await Hive.openBox<Course>(bookList);
 }

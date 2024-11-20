@@ -1,5 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:yoga_client_app/config/features/course_detail/course_info.dart';
+import 'package:yoga_client_app/features/course_detail/course_info.dart';
 
 part 'yoga_class.g.dart';
 
@@ -210,4 +210,42 @@ class Course {
   String toString() {
     return 'Course(comment: $comment, courseId: $courseId, date: $date, dayOfWeek: $dayOfWeek, id: $id, teacherNames: $teacherNames)';
   }
+  @override
+bool operator ==(Object other) {
+  if (identical(this, other)) return true;
+
+  return other is Course &&
+      other.comment == comment &&
+      other.courseId == courseId &&
+      other.date == date &&
+      other.dayOfWeek == dayOfWeek &&
+      other.id == id &&
+      _listEquals(other.teacherNames, teacherNames);
+}
+
+bool _listEquals(List<String>? list1, List<String>? list2) {
+  if (list1 == null || list2 == null) {
+    return list1 == list2;
+  }
+  if (list1.length != list2.length) {
+    return false;
+  }
+  for (int i = 0; i < list1.length; i++) {
+    if (list1[i] != list2[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+@override
+int get hashCode {
+  return comment.hashCode ^
+      courseId.hashCode ^
+      date.hashCode ^
+      dayOfWeek.hashCode ^
+      id.hashCode ^
+      teacherNames.hashCode;
+}
+
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../common/widgets/custom_button.dart';
-import '../../../data/yoga_class.dart';
-import '../../constants/colors.dart';
-import '../../constants/text_styles.dart';
+import '../../common/widgets/custom_button.dart';
+import '../../data/yoga_class.dart';
+import '../../config/constants/colors.dart';
+import '../../config/constants/text_styles.dart';
 
 class ViewClassScreen extends StatefulWidget {
   final Course course;
@@ -89,7 +89,9 @@ class _ViewClassScreenState extends State<ViewClassScreen> {
                 Padding(
                   padding:
                       EdgeInsets.symmetric(horizontal: deviceWidth * 0.035),
-                  child: const CustomButton(buttonName: 'BOOK NOW'),
+                  child: const CustomButton(
+                    buttonName: 'BOOK NOW',
+                  ),
                 ),
               ],
             ),
