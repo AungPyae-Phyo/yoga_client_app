@@ -3,7 +3,6 @@ import 'package:yoga_client_app/data/yoga_class.dart';
 
 import '../../main.dart';
 
-
 class CartManager {
   CartManager._();
   static List<Course> getAllCourse() {
@@ -26,8 +25,8 @@ class CartManager {
     return await box.delete(id);
   }
 
-  static Future<void> deleteAll(List<int> ids) async {
+  static Future<void> deleteAll(List<Course> courses) async {
     final box = Hive.box<Course>(yogaClassBoxName);
-    return await box.deleteAll(ids);
+    return await box.deleteAll(courses.map((e) => e.id));
   }
 }
