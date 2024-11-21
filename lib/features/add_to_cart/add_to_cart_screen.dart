@@ -188,9 +188,7 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
               Navigator.pop(context);
 
               // Clear all items from the cart
-              await CartManager.deleteAll(
-                courses.map((e) => int.tryParse(e.id ?? '') ?? 0).toList(),
-              );
+              await CartManager.deleteAll(courses);
 
               setState(() {
                 courses = CartManager.getAllCourse(); // Fetch updated data
