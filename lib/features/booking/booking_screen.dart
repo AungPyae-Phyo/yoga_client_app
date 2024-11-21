@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:yoga_client_app/data/yoga_class.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:yoga_client_app/data/booking_manager.dart';
+import 'package:yoga_client_app/data/yoga_class.dart';
+
+import '../../main.dart';
 
 class BookingListScreen extends StatefulWidget {
   const BookingListScreen({super.key});
@@ -12,6 +15,10 @@ class BookingListScreen extends StatefulWidget {
 
 class _BookingListScreenState extends State<BookingListScreen> {
   List<Course> bookingList = [];
+  late final emailBox = Hive.box<String>(emailListBox);
+  late final Map<String, dynamic> emails = {
+    for (final key in emailBox.keys) key: emailBox.get(key)
+  };
 
   @override
   void initState() {
@@ -71,6 +78,7 @@ class _BookingListScreenState extends State<BookingListScreen> {
                       children: [
                         Text('Date: ${course.dayOfWeek ?? 'N/A'}'),
                         Text('Teacher: ${course.teacherNames ?? 'N/A'}'),
+                        Text('Email: ${emails[course.courseId]}'),
                         //  Text('User: ${extractEmailUsername(course.email)}'), // Display username
                       ],
                     ),

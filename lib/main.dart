@@ -1,8 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:yoga_client_app/data/yoga_class.dart';
 import 'package:yoga_client_app/firebase_options.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+
 import 'common/bottom_nav/bottom_nav_screen.dart';
 import 'config/theme.dart';
 
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
 
 const yogaClassBoxName = 'yoga_class_box';
 const bookList = 'course_booking';
+const emailListBox = 'email_list_box';
 //const user = 'user_box';
 
 Future initHive() async {
@@ -41,5 +43,6 @@ Future initHive() async {
   Hive.registerAdapter(CourseAdapter());
   await Hive.openBox<Course>(yogaClassBoxName);
   await Hive.openBox<Course>(bookList);
+  await Hive.openBox<String>(emailListBox);
   // await Hive.openBox<Course>(user);
 }

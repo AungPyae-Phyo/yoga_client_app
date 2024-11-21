@@ -1,10 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:yoga_client_app/config/constants/colors.dart';
+import 'package:yoga_client_app/main.dart';
 
-import '../../data/cart_manager.dart';
 import '../../data/booking_manager.dart';
+import '../../data/cart_manager.dart';
 import '../../data/yoga_class.dart';
 import '../../utils/email_validation_utils.dart';
 import '../booking/booking_screen.dart';
@@ -18,6 +20,7 @@ class AddToCartScreen extends StatefulWidget {
 
 class _AddToCartScreenState extends State<AddToCartScreen> {
   List<Course> courses = [];
+  late final emailBox = Hive.box<String>(emailListBox);
 
   @override
   void initState() {
@@ -113,6 +116,7 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
 
     // Proceed with booking
     await BookingManager.addBooking(course); // Add to Booking
+    await emailBox.put(course.courseId!, email);
     await CartManager.removeCourse(course.id ?? ""); // Remove from Cart
     setState(() {
       courses = CartManager.getAllCourse(); // Update cart items
@@ -125,7 +129,7 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => BookingListScreen(),
+        builder: (context) => const BookingListScreen(),
       ),
     );
   }

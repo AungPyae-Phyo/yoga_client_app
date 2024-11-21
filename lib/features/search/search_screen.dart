@@ -1,6 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:yoga_client_app/data/yoga_class.dart';
-
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -24,9 +24,12 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   // Fetch all yoga classes from the database or manager
-  void getAllYogaClasses() {
+  void getAllYogaClasses() async {
+    final temp =
+        await FirebaseFirestore.instance.collection('yoga_courses').get();
+
     setState(() {
-      // Assuming this fetches all yoga classes
+      yogaClasses = temp.docs.map((e) => YogaClass.fromMap(e.data())).toList();
       filteredYogaClasses = yogaClasses;
     });
   }
@@ -34,32 +37,59 @@ class _SearchScreenState extends State<SearchScreen> {
   // Filter the yoga classes and courses based on the search criteria
   void filterCourses() {
     setState(() {
-      filteredYogaClasses = yogaClasses.where((yogaClass) {
-        final matchesDay =
-            selectedDay == null || yogaClass.dayOfWeek == selectedDay;
-        final matchesTime =
-            selectedTime == null || _isTimeMatch(yogaClass.time ?? "");
-        final matchesSearch = yogaClass.description
-                ?.toLowerCase()
-                .contains(searchController.text.toLowerCase()) ??
-            false;
+      final query = searchController.text.trim().toLowerCase();
+      if (query.isEmpty) {
+        filteredYogaClasses = yogaClasses;
+      }
+      filteredYogaClasses = yogaClasses.where(
+        (element) {
+          return element.dayOfWeek!.toLowerCase().contains(query) ||
+              element.time!.toLowerCase().contains(query) ||
+              element.typeOfClass!.toLowerCase().contains(query) ||
+              (element.classes?.any(
+                    (element) {
+                      return (element.teacherNames?.any(
+                            (name) => name.toLowerCase().contains(query),
+                          )) ??
+                          false;
+                    },
+                  ) ??
+                  false) ||
+              (element.classes?.any(
+                    (element) {
+                      return element.comment?.toLowerCase().contains(query) ??
+                          false;
+                    },
+                  ) ??
+                  false);
+        },
+      ).toList();
+      // filteredYogaClasses = yogaClasses.where((yogaClass) {
+      //   final matchesDay =
+      //       selectedDay == null || yogaClass.dayOfWeek == selectedDay;
+      //   final matchesTime =
+      //       selectedTime == null || _isTimeMatch(yogaClass.time ?? "");
+      //   final matchesSearch = yogaClass.description
+      //           ?.toLowerCase()
+      //           .contains(searchController.text.toLowerCase()) ??
+      //       false;
 
-        // Filter within the classes of the yoga class
-        final filteredClasses = yogaClass.classes?.where((course) {
-          final matchesCourseDay =
-              selectedDay == null || course.dayOfWeek == selectedDay;
-          // final matchesCourseTime = selectedTime == null ||
-          //     _isTimeMatch(course. ?? "");
-          final matchesCourseSearch = course.comment
-                  ?.toLowerCase()
-                  .contains(searchController.text.toLowerCase()) ??
-              false;
-          return matchesCourseDay && matchesCourseSearch;
-        }).toList();
+      //   // Filter within the classes of the yoga class
+      //   final filteredClasses = yogaClass.classes?.where((course) {
+      //     final matchesCourseDay =
+      //         selectedDay == null || course.dayOfWeek == selectedDay;
+      //     // final matchesCourseTime = selectedTime == null ||
+      //     //     _isTimeMatch(course. ?? "");
+      //     final matchesCourseSearch = course.comment
+      //             ?.toLowerCase()
+      //             .contains(searchController.text.toLowerCase()) ??
+      //         false;
+      //     return matchesCourseDay && matchesCourseSearch;
+      //   }).toList();
 
-        return (matchesDay || matchesTime || matchesSearch) &&
-            (filteredClasses?.isNotEmpty ?? false);
-      }).toList();
+      //   return (matchesDay || matchesTime || matchesSearch) &&
+      //       (filteredClasses?.isNotEmpty ?? false);
+      // }).toList();
     });
   }
 
@@ -122,51 +152,52 @@ class _SearchScreenState extends State<SearchScreen> {
               onChanged: (value) => filterCourses(),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              children: [
-                // Day Dropdown
-                Expanded(
-                  child: DropdownButton<String>(
-                    hint: const Text('Select Day'),
-                    value: selectedDay,
-                    onChanged: (newValue) {
-                      setState(() {
-                        selectedDay = newValue;
-                      });
-                      filterCourses();
-                    },
-                    items: [
-                      'Monday',
-                      'Tuesday',
-                      'Wednesday',
-                      'Thursday',
-                      'Friday'
-                    ].map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                // Time Picker Button
-                IconButton(
-                  icon: const Icon(Icons.access_time),
-                  onPressed: () => _selectTime(context),
-                ),
-                const SizedBox(width: 10),
-                // Date Picker Button
-                IconButton(
-                  icon: const Icon(Icons.date_range),
-                  onPressed: () => _selectDate(context),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 20),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          //   child: Row(
+          //     children: [
+          //       // Day Dropdown
+          //       Expanded(
+          //         child: DropdownButton<String>(
+          //           hint: const Text('Select Day'),
+          //           value: selectedDay,
+          //           onChanged: (newValue) {
+          //             setState(() {
+          //               selectedDay = newValue;
+          //             });
+          //             filterCourses();
+          //           },
+          //           items: [
+          //             'Monday',
+          //             'Tuesday',
+          //             'Wednesday',
+          //             'Thursday',
+          //             'Friday'
+          //           ].map<DropdownMenuItem<String>>((String value) {
+          //             return DropdownMenuItem<String>(
+          //               value: value,
+          //               child: Text(value),
+          //             );
+          //           }).toList(),
+          //         ),
+          //       ),
+          //       const SizedBox(width: 10),
+          //       // Time Picker Button
+          //       IconButton(
+          //         icon: const Icon(Icons.access_time),
+          //         onPressed: () => _selectTime(context),
+          //       ),
+          //       const SizedBox(width: 10),
+          //       // Date Picker Button
+          //       IconButton(
+          //         icon: const Icon(Icons.date_range),
+          //         onPressed: () => _selectDate(context),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+
+          // const SizedBox(height: 20),
           filteredYogaClasses.isEmpty
               ? const Center(child: Text('No courses found'))
               : Expanded(
