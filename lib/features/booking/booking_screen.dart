@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:yoga_client_app/data/yoga_class.dart';
 import 'package:yoga_client_app/data/booking_manager.dart';
 
 class BookingListScreen extends StatefulWidget {
-  const BookingListScreen({Key? key}) : super(key: key);
+  const BookingListScreen({super.key});
 
   @override
   State<BookingListScreen> createState() => _BookingListScreenState();
@@ -34,10 +33,8 @@ class _BookingListScreenState extends State<BookingListScreen> {
     fetchBookings();
     // Show a confirmation message
     ScaffoldMessenger.of(context).showSnackBar(
-      
       SnackBar(
-      
-        content: Text('${course.comment ?? 'Booking'} removed successfully!'),
+        content: Text('${course.comment ?? 'Booking'} Removed successfully!'),
       ),
     );
   }
@@ -74,6 +71,7 @@ class _BookingListScreenState extends State<BookingListScreen> {
                       children: [
                         Text('Date: ${course.dayOfWeek ?? 'N/A'}'),
                         Text('Teacher: ${course.teacherNames ?? 'N/A'}'),
+                        //  Text('User: ${extractEmailUsername(course.email)}'), // Display username
                       ],
                     ),
                     trailing: IconButton(

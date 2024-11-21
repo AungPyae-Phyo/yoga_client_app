@@ -150,6 +150,7 @@ class Course {
   final String? id;
   @HiveField(5)
   final List<String>? teacherNames;
+  
 
   Course({
     this.comment,

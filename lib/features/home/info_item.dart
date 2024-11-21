@@ -2,15 +2,16 @@
 import 'package:flutter/material.dart';
 
 import 'package:yoga_client_app/data/yoga_class.dart';
+import 'package:yoga_client_app/utils/string_utils.dart';
 
 import '../../config/constants/colors.dart';
 
 class UpperRowItemInfo extends StatelessWidget {
   final YogaClass yogaClass;
   const UpperRowItemInfo({
-    Key? key,
+    super.key,
     required this.yogaClass,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +63,7 @@ class LowerRowItemInfo extends StatelessWidget {
           size: 19,
         ),
         SizedBox(width: 4),
-        Text(yogaClass.eventType ?? ""),
+        Text(yogaClass.eventType?.replaceAll("_", " ").capitalize() ?? ""),
         SizedBox(width: 10),
         Icon(
           Icons.people,

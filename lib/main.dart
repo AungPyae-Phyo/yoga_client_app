@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
 
 const yogaClassBoxName = 'yoga_class_box';
 const bookList = 'course_booking';
+//const user = 'user_box';
 
 Future initHive() async {
   await Hive.initFlutter();
@@ -40,4 +41,5 @@ Future initHive() async {
   Hive.registerAdapter(CourseAdapter());
   await Hive.openBox<Course>(yogaClassBoxName);
   await Hive.openBox<Course>(bookList);
+  // await Hive.openBox<Course>(user);
 }

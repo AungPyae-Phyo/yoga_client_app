@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:yoga_client_app/data/yoga_class.dart';
+import 'package:yoga_client_app/utils/string_utils.dart';
 
 import '../../common/widgets/custom_button.dart';
 import '../../config/constants/text_styles.dart';
@@ -10,7 +11,7 @@ import 'course_detail_screen.dart';
 
 class CourseInfo extends StatelessWidget {
   final YogaClass yogaClass;
- 
+
   const CourseInfo({
     super.key,
     required this.yogaClass,
@@ -26,7 +27,7 @@ class CourseInfo extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              yogaClass.typeOfClass ?? "",
+              yogaClass.typeOfClass?.replaceAll("_", " ").capitalize() ?? "",
               style: TextStyles.cardTitle,
             ),
             const SizedBox(height: 12),
@@ -42,7 +43,9 @@ class CourseInfo extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => CourseDetailScreen(yogaClass: yogaClass,),
+                  builder: (context) => CourseDetailScreen(
+                    yogaClass: yogaClass,
+                  ),
                 ),
               ),
             ),

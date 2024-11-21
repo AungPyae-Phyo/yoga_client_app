@@ -6,6 +6,7 @@ import 'package:yoga_client_app/config/constants/colors.dart';
 import '../../data/cart_manager.dart';
 import '../../data/booking_manager.dart';
 import '../../data/yoga_class.dart';
+import '../../utils/email_validation_utils.dart';
 import '../booking/booking_screen.dart';
 
 class AddToCartScreen extends StatefulWidget {
@@ -98,6 +99,19 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
   }
 
   void onBook(Course course) async {
+    final email = await showEmailConfirmationDialog(context);
+    if (email == null || email.isEmpty) {
+      return; // User canceled the dialog
+    }
+
+    if (!isValidEmail(email)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter a valid email address.')),
+      );
+      return;
+    }
+
+    // Proceed with booking
     await BookingManager.addBooking(course); // Add to Booking
     await CartManager.removeCourse(course.id ?? ""); // Remove from Cart
     setState(() {
@@ -112,6 +126,39 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
       context,
       MaterialPageRoute(
         builder: (context) => BookingListScreen(),
+      ),
+    );
+  }
+
+  Future<String?> showEmailConfirmationDialog(BuildContext context) {
+    final emailController = TextEditingController();
+
+    return showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Enter Email'),
+        content: TextField(
+          controller: emailController,
+          keyboardType: TextInputType.emailAddress,
+          decoration: const InputDecoration(
+            labelText: 'Email Address',
+            hintText: 'Enter your email',
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context); // Close dialog without returning a value
+            },
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context, emailController.text); // Return the email
+            },
+            child: const Text('Confirm'),
+          ),
+        ],
       ),
     );
   }
@@ -134,7 +181,7 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
             isDestructiveAction: true,
             child: const Text('Yes'),
             onPressed: () async {
-              Navigator.pop(context); 
+              Navigator.pop(context);
 
               // Clear all items from the cart
               await CartManager.deleteAll(
