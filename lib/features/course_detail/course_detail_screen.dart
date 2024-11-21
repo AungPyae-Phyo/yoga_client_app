@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:yoga_client_app/config/constants/text_styles.dart';
 
 import 'package:yoga_client_app/features/course_detail/course_info.dart';
+import 'package:yoga_client_app/utils/string_utils.dart';
 
 import '../../data/cart_manager.dart';
 import '../../data/yoga_class.dart';
@@ -71,7 +72,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
               'Description: ',
             ),
             Text(
-                'Event Type: ${widget.yogaClass.eventType?.toLowerCase() ?? ""}'),
+                'Event Type: ${widget.yogaClass.eventType?.replaceAll("_", " ").capitalize() ?? ""}'),
 
             const SizedBox(height: 10),
 
@@ -126,3 +127,12 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
     });
   }
 }
+
+// extension StringExtension on String {
+//   String capitalize() {
+//     return split(" ").map((word) {
+//       if (word.isEmpty) return word;
+//       return word[0].toUpperCase() + word.substring(1).toLowerCase();
+//     }).join(" ");
+//   }
+// }

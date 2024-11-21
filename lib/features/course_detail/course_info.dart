@@ -5,7 +5,7 @@ import 'package:yoga_client_app/data/yoga_class.dart';
 
 import '../../common/widgets/custom_button.dart';
 import '../../config/constants/text_styles.dart';
-import '../home/widgets/info_item.dart';
+import '../home/info_item.dart';
 import 'course_detail_screen.dart';
 
 class CourseInfo extends StatelessWidget {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:yoga_client_app/data/yoga_class.dart';
 
-import '../../../config/constants/colors.dart';
+import '../../config/constants/colors.dart';
 
 class UpperRowItemInfo extends StatelessWidget {
   final YogaClass yogaClass;
