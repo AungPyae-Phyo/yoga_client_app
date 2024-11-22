@@ -145,7 +145,7 @@ class _SearchScreenState extends State<SearchScreen> {
             child: TextField(
               controller: searchController,
               decoration: const InputDecoration(
-                labelText: 'Search by comment or course title',
+                labelText: 'Search by day and course title',
                 border: OutlineInputBorder(),
                 prefixIcon: Icon(Icons.search),
               ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../common/widgets/custom_button.dart';
 import '../../data/yoga_class.dart';
 import '../../config/constants/colors.dart';
 import '../../config/constants/text_styles.dart';
@@ -25,7 +24,7 @@ class _ViewClassScreenState extends State<ViewClassScreen> {
       appBar: AppBar(
         title: const Text('Class Details'),
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.favorite_outline))
+          IconButton(onPressed: () {}, icon: const Icon(Icons.favorite_outline))
         ],
       ),
       body: Column(
@@ -38,12 +37,11 @@ class _ViewClassScreenState extends State<ViewClassScreen> {
             decoration: const BoxDecoration(
               color: ColorConst.lightAccent,
             ),
-            child: const Center(
-              child: Text(
-                'Flow Yoga',
-                style: TextStyle(fontSize: 30),
-              ),
-            ),
+            child: Center(
+                child: Icon(
+              Icons.spa,
+              size: 130,
+            )),
           ),
           const SizedBox(height: 20),
           Padding(
@@ -86,6 +84,7 @@ class _ViewClassScreenState extends State<ViewClassScreen> {
                 const SizedBox(height: 10),
                 Text('Description: ${widget.course.comment}'),
                 const SizedBox(height: 10),
+
                 // Padding(
                 //   padding:
                 //       EdgeInsets.symmetric(horizontal: deviceWidth * 0.035),

@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:yoga_client_app/config/constants/text_styles.dart';
 
-import 'package:yoga_client_app/features/course_detail/course_info.dart';
 import 'package:yoga_client_app/utils/string_utils.dart';
 
 import '../../data/cart_manager.dart';
@@ -68,8 +67,8 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
               ),
             ),
             const SizedBox(height: 10),
-            const Text(
-              'Description: ',
+            Text(
+              'Class Type Descritpion: ${widget.yogaClass.description?.replaceAll("_", " ").capitalize() ?? ""}',
             ),
             Text(
                 'Event Type: ${widget.yogaClass.eventType?.replaceAll("_", " ").capitalize() ?? ""}'),
@@ -84,7 +83,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
             const SizedBox(height: 10),
 
             const Text(
-              'Policy',
+              'Rules and Policy',
               style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
@@ -92,7 +91,9 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                   decoration: TextDecoration.underline),
             ),
 
-            const Text('data'),
+            const Text(
+                'No refunds are issued for cancellations made within 24 hours of the class start time. Please plan accordingly as our strict cancellation policy ensures class availability for all.'),
+            // Text(widget.yogaClass.description ?? ""),
 
             isLoading
                 ? const Center(
@@ -127,12 +128,3 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
     });
   }
 }
-
-// extension StringExtension on String {
-//   String capitalize() {
-//     return split(" ").map((word) {
-//       if (word.isEmpty) return word;
-//       return word[0].toUpperCase() + word.substring(1).toLowerCase();
-//     }).join(" ");
-//   }
-// }
